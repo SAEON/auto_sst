@@ -74,7 +74,6 @@ jobs:
         run: >-
           docker run \
             --rm \
-            --entrypoint /bin/bash \
             -v ${{ github.workspace }}:/tmp \
             ghcr.io/saeon/auto_sst_${{ env.BRANCH_REF }}:latest \
               ${{ secrets.COPERNICUS_USERNAME }} \
