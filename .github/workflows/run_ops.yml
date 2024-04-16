@@ -70,11 +70,11 @@ jobs:
 #          chown -R :runners ${{ env.OUTPUT_DIR }} 
 #          chmod -R 774 ${{ env.OUTPUT_DIR }} 
       - name: run the script
+        # keeping this in case we go back to a self-hosted runner -v ${{ env.OUTPUT_DIR }}:/tmp \
         run: >-
           docker run \
             --rm \
             --entrypoint /bin/bash \
-            # -v ${{ env.OUTPUT_DIR }}:/tmp \
             -v ${{ github.workspace }}:/tmp \
             ghcr.io/saeon/auto_sst_${{ env.BRANCH_REF }}:latest \
               ${{ secrets.COPERNICUS_USERNAME }} \
