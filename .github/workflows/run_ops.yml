@@ -8,8 +8,8 @@ on:
         required: true
         default: 'true'
         type: boolean
-#  schedule: 
-#    - cron: '0 04 * * *' # 0600 SAST
+  schedule: 
+    - cron: '0 04 * * *' # 0600 SAST
 
 jobs:
   build_image:
@@ -19,7 +19,6 @@ jobs:
   # Set the environment variables 
   envs:
     runs-on: ubuntu-latest
-    env:
     outputs:
       BRANCH_REF: ${{ steps.BRANCH_REF.outputs.value }}
     steps:
