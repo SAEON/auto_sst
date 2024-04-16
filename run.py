@@ -386,7 +386,7 @@ except Exception as e:
     fig2.savefig(fcast_fname,bbox_inches='tight')
 
 
- Import modues for email notification
+# Import modules for email notification
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
