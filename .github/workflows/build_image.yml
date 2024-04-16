@@ -66,10 +66,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   
-  pull-image-saeon:
-    needs: [envs,build-and-push-image]
-    runs-on: saeon
-    steps:
-      - name: pull latest docker image to saeon server
-        run: |
-          docker pull ${{ needs.envs.outputs.IMAGE_NAME }}:latest
+#  pull-image-saeon:
+#    needs: [envs,build-and-push-image]
+#    runs-on: saeon
+#    steps:
+#      - name: pull latest docker image to saeon server
+#        run: |
+#          docker pull ${{ needs.envs.outputs.IMAGE_NAME }}:latest

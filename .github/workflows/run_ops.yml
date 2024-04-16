@@ -47,33 +47,35 @@ jobs:
   run-script:
     needs: [envs,build_image]
     if: ${{ always() }}  # Always run even if build_image is not executed (but it'll wait for build_image if it is)
-    runs-on: saeon
+    #runs-on: saeon
+    runs-on: ubuntu-latest
     env:
       OUTPUT_DIR: ${{ needs.envs.outputs.OUTPUT_DIR }}
       BRANCH_REF: ${{ needs.envs.outputs.BRANCH_REF }}
     steps:
-      - name: Clean output older than 10 days 
-        run: >-
-          find \
-            /home/runner/somisana/auto_sst/* \
-            -maxdepth 0 \
-            -type d \
-            -ctime +10 \
-            -exec \
-              rm \
-                -rf {} \; 
-      - name: Create ${{ env.OUTPUT_DIR }} directory 
-        run: |
-          rm -rf ${{ env.OUTPUT_DIR }} 
-          mkdir -p ${{ env.OUTPUT_DIR }} 
-          chown -R :runners ${{ env.OUTPUT_DIR }} 
-          chmod -R 774 ${{ env.OUTPUT_DIR }} 
+#      - name: Clean output older than 10 days 
+#        run: >-
+#          find \
+#            /home/runner/somisana/auto_sst/* \
+#            -maxdepth 0 \
+#            -type d \
+#            -ctime +10 \
+#            -exec \
+#              rm \
+#                -rf {} \; 
+#      - name: Create ${{ env.OUTPUT_DIR }} directory 
+#        run: |
+#          rm -rf ${{ env.OUTPUT_DIR }} 
+#          mkdir -p ${{ env.OUTPUT_DIR }} 
+#          chown -R :runners ${{ env.OUTPUT_DIR }} 
+#          chmod -R 774 ${{ env.OUTPUT_DIR }} 
       - name: run the script
         run: >-
           docker run \
             --rm \
             --entrypoint /bin/bash \
-            -v ${{ env.OUTPUT_DIR }}:/tmp \
+            # -v ${{ env.OUTPUT_DIR }}:/tmp \
+            -v ${{ github.workspace }}:/tmp \
             ghcr.io/saeon/auto_sst_${{ env.BRANCH_REF }}:latest \
               ${{ secrets.COPERNICUS_USERNAME }} \
               ${{ secrets.COPERNICUS_PASSWORD }} \
