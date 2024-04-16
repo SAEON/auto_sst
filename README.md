@@ -15,5 +15,6 @@ conda activate auto_sst
 And run the script
 ```sh
 python run.py <your-copernicus-username> <your-copernicus-password> <sender-email-address> <sender-email-password>
+```
 
 Lots of scope for generalising this, but it's a start
