@@ -423,9 +423,9 @@ def send_email(sender_email, sender_password, receiver_email, subject, message, 
     session.quit()
 
 # Email details
-#reciever_email_list = ['jethandh@gmail.com',
-#                       't.morris@saeon.nrf.ac.za']
-reciever_email_list = ['gfearon11@gmail.com']
+reciever_email_list = ['jethandh@gmail.com',
+                       't.morris@saeon.nrf.ac.za',
+                       'gfearon11@gmail.com']
 
 receiver_email = reciever_email_list
 subject = 'Latest SST Images'

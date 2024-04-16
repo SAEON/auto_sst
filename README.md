@@ -17,4 +17,10 @@ And run the script
 python run.py <your-copernicus-username> <your-copernicus-password> <sender-email-address> <sender-email-password>
 ```
 
-Lots of scope for generalising this, but it's a start
+You can also run the script as a docker image, generated using the `Dockerfile` in this repo:
+```sh
+docker run --rm -v <your-local-dir>:/tmp ghcr.io/saeon/auto_sst_main:latest <your-copernicus-username> <your-copernicus-password> <sender-email-address> <sender-email-password>
+``` 
+
+This docker image is updated operationally once a day, and run on a 'github-hosted runner' following the workflow in `.github/workflows/run_ops.yml`
+
