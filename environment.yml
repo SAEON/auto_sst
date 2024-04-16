@@ -1,0 +1,14 @@
+name: auto_sst
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - xarray
+  - matplotlib
+  - cartopy
+  - shapely
+  - numpy
+  - pip
+  - pip:
+    - copernicusmarine
