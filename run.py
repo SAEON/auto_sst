@@ -435,6 +435,4 @@ files = [plt_fname, plt_fname_subset, fcast_fname]  # List of file paths to atta
 for i in range(len(reciever_email_list)):
     send_email(sender_email, sender_password, receiver_email[i], subject, message, files)
 
-# Clear workspace memory
-get_ipython().run_line_magic('reset', '-f')
 
