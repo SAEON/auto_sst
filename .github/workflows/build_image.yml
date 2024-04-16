@@ -61,7 +61,7 @@ jobs:
         uses: docker/build-push-action@master
         with:
           context: .
-          file: Dockerfile.${{ inputs.IMAGE_ID }}
+          file: Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -45,8 +45,9 @@ jobs:
           echo "value=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
 
   run-script:
-    needs: [envs]
-    runs-on: somisana
+    needs: [envs,build_image]
+    if: ${{ always() }}  # Always run even if build_image is not executed (but it'll wait for build_image if it is)
+    runs-on: saeon
     env:
       OUTPUT_DIR: ${{ needs.envs.outputs.OUTPUT_DIR }}
       BRANCH_REF: ${{ needs.envs.outputs.BRANCH_REF }}
