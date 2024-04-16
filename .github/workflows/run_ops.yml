@@ -1,4 +1,4 @@
-name: Run SOMISANA forecast models
+name: run auto_sst
 
 on:
   workflow_dispatch:
