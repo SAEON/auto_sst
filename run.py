@@ -18,11 +18,10 @@ import numpy as np
 import sys
 
 # comman line inputs
-outdir = sys.argv[1]
-username = sys.argv[2]
-password = sys.argv[3]
-sender_email = sys.argv[4]
-sender_password = sys.argv[5]
+username = sys.argv[1]
+password = sys.argv[2]
+sender_email = sys.argv[3]
+sender_password = sys.argv[4]
 
 #copernicusmarine.login()
 

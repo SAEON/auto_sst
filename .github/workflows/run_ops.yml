@@ -1,0 +1,81 @@
+name: Run SOMISANA forecast models
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_date:
+        description: Run date (default = today). yyyymmdd
+        required: false
+        default:
+      build_image:
+        description: 'build the docker image as part of the workflow?'
+        required: true
+        default: 'true'
+        type: boolean
+
+# commenting the schedule for now until we are ready to deploy this workflow operationally
+#  schedule: 
+#    - cron: '0 04 * * *' # 0600 SAST
+
+jobs:
+  build_image:
+    if: ${{ github.event.inputs.build_image == 'true' }}  # Conditional execution (saves time when testing something else and we don't want to build it every time)
+    uses: ./.github/workflows/build_image.yml  # Path to your reusable workflow
+
+  # Set the environment variables using the current branch reference
+  envs:
+    runs-on: ubuntu-latest
+    env:
+      RUN_DATE: ${{ inputs.run_date }}
+    outputs:
+      BRANCH_REF: ${{ steps.BRANCH_REF.outputs.value }}
+      OUTPUT_DIR: ${{ steps.output_dir.outputs.value }}
+    steps:
+      - name: Configure run date
+        id: run_date
+        run: |
+          echo "yyyymmdd=${RUN_DATE:=$(date +'%Y%m%d')}" >> $GITHUB_OUTPUT
+      - name: output directory
+        id: output_dir
+        run: |
+          echo "value=/home/runner/somisana/auto_sst/${{ steps.run_date.outputs.yyyymmdd }}" >> $GITHUB_OUTPUT 
+      - name: Set the BRANCH_REF
+        id: BRANCH_REF
+        run: |
+          echo "value=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+
+  run-script:
+    needs: [envs]
+    runs-on: somisana
+    env:
+      OUTPUT_DIR: ${{ needs.envs.outputs.OUTPUT_DIR }}
+      BRANCH_REF: ${{ needs.envs.outputs.BRANCH_REF }}
+    steps:
+      - name: Clean output older than 10 days 
+        run: >-
+          find \
+            /home/runner/somisana/auto_sst/* \
+            -maxdepth 0 \
+            -type d \
+            -ctime +10 \
+            -exec \
+              rm \
+                -rf {} \; 
+      - name: Create ${{ env.OUTPUT_DIR }} directory 
+        run: |
+          rm -rf ${{ env.OUTPUT_DIR }} 
+          mkdir -p ${{ env.OUTPUT_DIR }} 
+          chown -R :runners ${{ env.OUTPUT_DIR }} 
+          chmod -R 774 ${{ env.OUTPUT_DIR }} 
+      - name: run the script
+        run: >-
+          docker run \
+            --rm \
+            --entrypoint /bin/bash \
+            -v ${{ env.OUTPUT_DIR }}:/tmp \
+            ghcr.io/saeon/auto_sst_${{ env.BRANCH_REF }}:latest \
+              ${{ secrets.COPERNICUS_USERNAME }} \
+              ${{ secrets.COPERNICUS_PASSWORD }} \
+              ${{ secrets.EMAIL_SENDER }} \
+              ${{ secrets.EMAIL_PASSWORD }}
+
