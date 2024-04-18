@@ -9,7 +9,7 @@ WORKDIR /auto_sst
 COPY environment.yml .
 RUN mamba env update -n base -f environment.yml
 
-# Install somisana-croco
+# Install the code
 ADD . /auto_sst
 
 ENTRYPOINT ["python", "run.py"]
