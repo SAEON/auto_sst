@@ -9,7 +9,7 @@ on:
         default: 'true'
         type: boolean
   schedule: 
-    - cron: '0 04 * * *' # 0600 SAST
+    - cron: '0 14 * * *' # 1600 SAST
 
 jobs:
   build_image:

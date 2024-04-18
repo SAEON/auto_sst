@@ -432,7 +432,7 @@ subject = 'Latest SST Images'
 message = 'OSTIA Level 4 SST images for Southern Africa and Forecast SST from Mercator global ocean'
 files = [plt_fname, plt_fname_subset, fcast_fname]  # List of file paths to attach
 
-for i in range(len(reciever_email_list)):
-    send_email(sender_email, sender_password, receiver_email[i], subject, message, files)
+#for i in range(len(reciever_email_list)):
+#    send_email(sender_email, sender_password, receiver_email[i], subject, message, files)
 
 
