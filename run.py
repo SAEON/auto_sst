@@ -454,11 +454,11 @@ def send_email(sender_email, sender_password, receiver_email, subject, message, 
     session.quit()
 
 # Email details
-#reciever_email_list = ['jethandh@gmail.com',
-#                       'gfearon11@gmail.com',
-#                       't.morris@saeon.nrf.ac.za']
+reciever_email_list = ['js.dhotman@saeon.nrf.ac.za',
+                       'gfearon11@gmail.com',
+                       't.morris@saeon.nrf.ac.za']
 #
-reciever_email_list = ['js.dhotman@saeon.nrf.ac.za']
+#reciever_email_list = ['js.dhotman@saeon.nrf.ac.za']
 #receiver_email = reciever_email_list
 subject = 'Latest SST Images'
 message = 'OSTIA Level 4 SST images for Southern Africa and Forecast SST from Mercator global ocean'
