@@ -10,18 +10,18 @@ from datetime import datetime, timedelta
 import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
-from cartopy.io import shapereader
-from cartopy.feature import NaturalEarthFeature
+#from cartopy.io import shapereader
+#from cartopy.feature import NaturalEarthFeature
 import cartopy.feature as cfeature
 import os
 import numpy as np
 import sys
 
 # comman line inputs
-username = 'jdhotman1' #sys.argv[1]
-password = '?+rFV?rD93h_X=q' #sys.argv[2]
-sender_email = 'js.dhotman@saeon.nrf.ac.za' #sys.argv[3]
-sender_password = 'qiqs jyqc nisu jlds ' #sys.argv[4]
+username = sys.argv[1]
+password = sys.argv[2]
+sender_email = sys.argv[3]
+sender_password = sys.argv[4]
 
 #copernicusmarine.login()
 
@@ -43,7 +43,7 @@ Data_ID =  'METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2'
 Latitude = [-45,-25]
 Longitude = [15,35]
 variables = ["analysed_sst"]
-time = (datetime.now() - timedelta(2)).strftime('%Y-%m-%d')
+time = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
 output_fname = 'OSTIA_SST_SA_' + time +'.nc'
 print('Date: ', time)
 
@@ -423,10 +423,11 @@ def send_email(sender_email, sender_password, receiver_email, subject, message, 
     session.quit()
 
 # Email details
-#reciever_email_list = ['jethandh@gmail.com',
-#                       'gfearon11@gmail.com']
-#, 't.morris@saeon.nrf.ac.za',
-reciever_email_list = ['js.dhotman@saeon.nrf.ac.za', 'jethandh@gmail.com']
+reciever_email_list = ['jethandh@gmail.com',
+                       'gfearon11@gmail.com',
+                       't.morris@saeon.nrf.ac.za']
+#
+#reciever_email_list = ['js.dhotman@saeon.nrf.ac.za', 'jethandh@gmail.com']
 #receiver_email = reciever_email_list
 subject = 'Latest SST Images'
 message = 'OSTIA Level 4 SST images for Southern Africa and Forecast SST from Mercator global ocean'
