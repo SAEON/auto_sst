@@ -10,8 +10,8 @@ from datetime import datetime, timedelta
 import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
-from cartopy.io import shapereader
-from cartopy.feature import NaturalEarthFeature
+#from cartopy.io import shapereader
+#from cartopy.feature import NaturalEarthFeature
 import cartopy.feature as cfeature
 import os
 import numpy as np
@@ -424,15 +424,16 @@ def send_email(sender_email, sender_password, receiver_email, subject, message, 
 
 # Email details
 reciever_email_list = ['jethandh@gmail.com',
-                       't.morris@saeon.nrf.ac.za',
-                       'gfearon11@gmail.com']
-
-receiver_email = reciever_email_list
+                       'gfearon11@gmail.com',
+                       't.morris@saeon.nrf.ac.za']
+#
+#reciever_email_list = ['js.dhotman@saeon.nrf.ac.za', 'jethandh@gmail.com']
+#receiver_email = reciever_email_list
 subject = 'Latest SST Images'
 message = 'OSTIA Level 4 SST images for Southern Africa and Forecast SST from Mercator global ocean'
 files = [plt_fname, plt_fname_subset, fcast_fname]  # List of file paths to attach
 
-#for i in range(len(reciever_email_list)):
-#    send_email(sender_email, sender_password, receiver_email[i], subject, message, files)
+for i in range(len(reciever_email_list)):
+    send_email(sender_email, sender_password, reciever_email_list[i], subject, message, files)
 
 
