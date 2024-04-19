@@ -16,8 +16,10 @@ import cartopy.feature as cfeature
 import os
 import numpy as np
 import sys
+import time
 
-# comman line inputs
+
+# command line inputs
 username = sys.argv[1]
 password = sys.argv[2]
 sender_email = sys.argv[3]
@@ -43,31 +45,48 @@ Data_ID =  'METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2'
 Latitude = [-45,-25]
 Longitude = [15,35]
 variables = ["analysed_sst"]
-time = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
-output_fname = 'OSTIA_SST_SA_' + time +'.nc'
-print('Date: ', time)
+my_time = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
+output_fname = 'OSTIA_SST_SA_' + my_time +'.nc'
+#print('Date: ', my_time)
 
 
 # Error handling
 # Download and plot latest OSTIA SST
-try: 
-    sst_data_file = copernicusmarine.subset(dataset_id=Data_ID,
-                                        username = username,
-                                        password = password,
-                                        minimum_longitude = min(Longitude),
-                                         maximum_longitude = max(Longitude),
-                                        minimum_latitude= min(Latitude),
-                                        maximum_latitude = max(Latitude),
-                                         start_datetime = time,
-                                         end_datetime = time,
-                                         variables = variables,
-                                   output_filename = output_fname,
-                                        force_download=True)
+
+MAX_RETRIES = 3
+RETRY_WAIT = 10      
+    
+i = 0
+
+while i < MAX_RETRIES:
+    
+    try: 
+        print('Attempting download of OSTIA SST data. Attempt No: ',str(i))
+        sst_data_file = copernicusmarine.subset(dataset_id=Data_ID,
+                                            username = username,
+                                            password = password,
+                                            minimum_longitude = min(Longitude),
+                                             maximum_longitude = max(Longitude),
+                                            minimum_latitude= min(Latitude),
+                                            maximum_latitude = max(Latitude),
+                                             start_datetime = my_time,
+                                             end_datetime = my_time,
+                                             variables = variables,
+                                       output_filename = output_fname,
+                                            force_download=True)
+        break
+    except Exception as e:
+        print('Failed to download SST data')
+        time.sleep(RETRY_WAIT)
+        i+=1
         
+if os.path.exists(output_fname) == True:
+
+    print('Generating SST plot')
     sst_data = xr.open_dataset(sst_data_file)
     sst_data = sst_data.squeeze()
         
-    title = 'SST Map for: ' + time
+    title = 'SST Map for: ' + my_time
 
     fig = plt.figure(figsize=(10, 8))
 
@@ -98,9 +117,10 @@ try:
     # Add gridlines
     ax.gridlines(draw_labels=True)
 
-    plt_fname = 'SouthernAfrica_SST_' + time + '.png'
+    plt_fname = 'SouthernAfrica_SST_' + my_time + '.png'
 
     fig.savefig(plt_fname,bbox_inches='tight')
+    plt.show()
         
     ####### Second figure #######
         
@@ -137,27 +157,28 @@ try:
     # Add gridlines
     ax.gridlines(draw_labels=True)
 
-    plt_fname_subset = 'EC_SouthernAfrica_SST_' + time + '.png'
+    plt_fname_subset = 'EC_SouthernAfrica_SST_' + my_time + '.png'
 
     fig1.savefig(plt_fname_subset,bbox_inches='tight')
-
+    plt.show()
 
     sst_data.close()
     os.remove(sst_data_file)
     
-except Exception as e:
-        
-        plt.figure()
-        
-        t = 'No OSTIA SST data for: ' + time
-        plt.text(0.3,0.5,t)
-        
-        plt_fname = 'SouthernAfrica_SST_' + time + '.png'
-        plt_fname_subset = 'EC_SouthernAfrica_SST_' + time + '.png'
-        
-        plt.savefig(plt_fname)
-        plt.savefig(plt_fname_subset)
-
+else:
+    #os.unlink(sst_data_file)
+    print('No sst data to plot')          
+    plt.figure()
+    
+    t = 'No OSTIA SST data for: ' + my_time
+    plt.text(0.3,0.5,t)
+    
+    plt_fname = 'SouthernAfrica_SST_' + my_time + '.png'
+    plt_fname_subset = 'EC_SouthernAfrica_SST_' + my_time + '.png'
+    
+    plt.savefig(plt_fname)
+    plt.savefig(plt_fname_subset)
+    plt.show()
 
 
 # Download and plot forcast SST data
@@ -171,23 +192,33 @@ End_date = (datetime.now() + timedelta(4)).strftime('%Y-%m-%d')
 output_fname = 'Forcast_SST_SA_' + Start_date +'.nc'
 depth = 0.49402499198913574
 
-
-try:
+i = 0
+while i < MAX_RETRIES:
     
-    f_sst_data_file = copernicusmarine.subset(dataset_id=Data_ID,
-                                        username = username,
-                                        password = password,
-                                        minimum_longitude = min(Longitude),
-                                         maximum_longitude = max(Longitude),
-                                        minimum_latitude= min(Latitude),
-                                        maximum_latitude = max(Latitude),
-                                         start_datetime = Start_date,
-                                         end_datetime = End_date,
-                                         variables = variables,
-                                          minimum_depth=depth,
-                                          maximum_depth=depth,
-                                          output_filename = output_fname,
-                                          force_download=True)
+    try:
+        print('Attempting download of forcast data. Attempt No: ',str(i))
+        f_sst_data_file = copernicusmarine.subset(dataset_id=Data_ID,
+                                            username = username,
+                                            password = password,
+                                            minimum_longitude = min(Longitude),
+                                             maximum_longitude = max(Longitude),
+                                            minimum_latitude= min(Latitude),
+                                            maximum_latitude = max(Latitude),
+                                             start_datetime = Start_date,
+                                             end_datetime = End_date,
+                                             variables = variables,
+                                              minimum_depth=depth,
+                                              maximum_depth=depth,
+                                              output_filename = output_fname,
+                                              force_download=True)
+    
+        break
+    except Exception as e:
+        print('Failed to download forcast data')
+        time.sleep(RETRY_WAIT)
+        i+=1
+        
+if os.path.exists(output_fname) == True:        
     f_sst_data = xr.open_dataset(f_sst_data_file)
     f_sst_data = f_sst_data.squeeze()
     
@@ -376,14 +407,14 @@ try:
     fcast_fname = 'Forecast_SST_' + Start_date + '.png'
     fig2.savefig(fcast_fname,bbox_inches='tight')
     
-except Exception as e:
+else:
     plt.figure()
         
     t = 'No forcast SST data for: ' + Start_date
     plt.text(0.3,0.5,t)
         
     fcast_fname = 'Forecast_SST_' + Start_date + '.png'
-    fig2.savefig(fcast_fname,bbox_inches='tight')
+    plt.savefig(fcast_fname,bbox_inches='tight')
 
 
 # Import modules for email notification
@@ -423,11 +454,11 @@ def send_email(sender_email, sender_password, receiver_email, subject, message, 
     session.quit()
 
 # Email details
-reciever_email_list = ['jethandh@gmail.com',
-                       'gfearon11@gmail.com',
-                       't.morris@saeon.nrf.ac.za']
+#reciever_email_list = ['jethandh@gmail.com',
+#                       'gfearon11@gmail.com',
+#                       't.morris@saeon.nrf.ac.za']
 #
-#reciever_email_list = ['js.dhotman@saeon.nrf.ac.za', 'jethandh@gmail.com']
+reciever_email_list = ['js.dhotman@saeon.nrf.ac.za']
 #receiver_email = reciever_email_list
 subject = 'Latest SST Images'
 message = 'OSTIA Level 4 SST images for Southern Africa and Forecast SST from Mercator global ocean'
