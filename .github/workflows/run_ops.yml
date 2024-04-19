@@ -1,15 +1,15 @@
 name: run auto_sst
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 14 * * *' # 1600 SAST
+  workflow_dispatch:  # Optional, if you still want manual triggering with other inputs
     inputs:
       build_image:
         description: 'build the docker image as part of the workflow?'
         required: true
         default: 'true'
         type: boolean
-  schedule: 
-    - cron: '0 14 * * *' # 1600 SAST
 
 jobs:
   build_image:
