@@ -192,6 +192,9 @@ End_date = (datetime.now() + timedelta(4)).strftime('%Y-%m-%d')
 output_fname = 'Forcast_SST_SA_' + Start_date +'.nc'
 depth = 0.49402499198913574
 
+MAX_RETRIES = 3
+RETRY_WAIT = 10  
+
 i = 0
 while i < MAX_RETRIES:
     
@@ -214,7 +217,7 @@ while i < MAX_RETRIES:
     
         break
     except Exception as e:
-        print('Failed to download forcast data')
+        print('Failed to download forecast data')
         time.sleep(RETRY_WAIT)
         i+=1
         
