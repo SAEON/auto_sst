@@ -13,7 +13,7 @@ on:
 
 jobs:
   build_image:
-    if: ${{ github.event.inputs.build_image == 'true' }}  # Conditional execution (saves time when testing something else and we don't want to build it every time)
+    if: ${{ github.event.schedule || github.event.inputs.build_image == 'true' }}  # Conditional execution (saves time when testing something else and we don't want to build it every time)
     uses: ./.github/workflows/build_image.yml  # Path to your reusable workflow
 
   # Set the environment variables 
