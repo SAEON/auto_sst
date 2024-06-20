@@ -201,7 +201,6 @@ while i < MAX_RETRIES:
     try:
         print('Attempting download of forcast data. Attempt No: ',str(i))
         f_sst_data_file = copernicusmarine.subset(dataset_id=Data_ID,
-                                            dataset_version = 20221,
                                             username = username,
                                             password = password,
                                             minimum_longitude = min(Longitude),
