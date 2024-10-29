@@ -187,8 +187,8 @@ else:
 Data_ID =  'cmems_mod_glo_phy-thetao_anfc_0.083deg_PT6H-i'
 
 variables = ["thetao"]
-Start_date = (datetime.now() - timedelta(2)).strftime('%Y-%m-%d')
-End_date = (datetime.now() + timedelta(4)).strftime('%Y-%m-%d')
+Start_date = (datetime.now() - timedelta(8)).strftime('%Y-%m-%d')
+End_date = (datetime.now() + timedelta(10)).strftime('%Y-%m-%d')
 output_fname = 'Forcast_SST_SA_' + Start_date +'.nc'
 depth = 0.49402499198913574
 
