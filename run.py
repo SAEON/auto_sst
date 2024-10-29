@@ -45,7 +45,7 @@ Data_ID =  'METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2'
 Latitude = [-45,-25]
 Longitude = [15,35]
 variables = ["analysed_sst"]
-my_time = (datetime.now() - timedelta(5)).strftime('%Y-%m-%d')
+my_time = (datetime.now() - timedelta(4)).strftime('%Y-%m-%d')
 output_fname = 'OSTIA_SST_SA_' + my_time +'.nc'
 #print('Date: ', my_time)
 
@@ -187,8 +187,8 @@ else:
 Data_ID =  'cmems_mod_glo_phy-thetao_anfc_0.083deg_PT6H-i'
 
 variables = ["thetao"]
-Start_date = (datetime.now() - timedelta(6)).strftime('%Y-%m-%d')
-End_date = (datetime.now() + timedelta(8)).strftime('%Y-%m-%d')
+Start_date = (datetime.now() - timedelta(5)).strftime('%Y-%m-%d')
+End_date = (datetime.now() + timedelta(7)).strftime('%Y-%m-%d')
 output_fname = 'Forcast_SST_SA_' + Start_date +'.nc'
 depth = 0.49402499198913574
 
