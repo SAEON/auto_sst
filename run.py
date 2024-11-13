@@ -459,7 +459,8 @@ def send_email(sender_email, sender_password, receiver_email, subject, message, 
 # Email details
 reciever_email_list = ['js.dhotman@saeon.nrf.ac.za',
                        'gfearon11@gmail.com',
-                       't.morris@saeon.nrf.ac.za']
+                       't.morris@saeon.nrf.ac.za',
+                      'JH.Smith@saiab.nrf.ac.za']
 #
 #reciever_email_list = ['js.dhotman@saeon.nrf.ac.za']
 #receiver_email = reciever_email_list
