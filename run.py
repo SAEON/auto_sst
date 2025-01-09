@@ -46,7 +46,7 @@ Data_ID =  'METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2'
 Latitude = [-45,-25]
 Longitude = [15,35]
 variables = ["analysed_sst"]
-my_time = (datetime.now() - timedelta(2)).strftime('%Y-%m-%d')
+my_time = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
 output_fname = 'OSTIA_SST_SA_' + my_time +'.nc'
 #print('Date: ', my_time)
 
@@ -83,7 +83,7 @@ while i < MAX_RETRIES:
 if os.path.exists(output_fname) == True:
 
     print('Generating SST plot')
-    sst_data = xr.open_dataset(sst_data_file.filename,engine="h5netcdf")
+    sst_data = xr.open_dataset(sst_data_file.filename)
     sst_data = sst_data.squeeze()
         
     title = 'SST Map for: ' + my_time
