@@ -25,6 +25,7 @@ password = sys.argv[2]
 sender_email = sys.argv[3]
 sender_password = sys.argv[4]
 
+
 #copernicusmarine.login()
 
 # Transect
@@ -45,7 +46,7 @@ Data_ID =  'METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2'
 Latitude = [-45,-25]
 Longitude = [15,35]
 variables = ["analysed_sst"]
-my_time = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
+my_time = (datetime.now() - timedelta(2)).strftime('%Y-%m-%d')
 output_fname = 'OSTIA_SST_SA_' + my_time +'.nc'
 #print('Date: ', my_time)
 
@@ -72,8 +73,7 @@ while i < MAX_RETRIES:
                                              start_datetime = my_time,
                                              end_datetime = my_time,
                                              variables = variables,
-                                       output_filename = output_fname,
-                                            force_download=True)
+                                       output_filename = output_fname)
         break
     except Exception as e:
         print('Failed to download SST data')
@@ -83,7 +83,7 @@ while i < MAX_RETRIES:
 if os.path.exists(output_fname) == True:
 
     print('Generating SST plot')
-    sst_data = xr.open_dataset(sst_data_file)
+    sst_data = xr.open_dataset(sst_data_file.filename,engine="h5netcdf")
     sst_data = sst_data.squeeze()
         
     title = 'SST Map for: ' + my_time
@@ -120,7 +120,7 @@ if os.path.exists(output_fname) == True:
     plt_fname = 'SouthernAfrica_SST_' + my_time + '.png'
 
     fig.savefig(plt_fname,bbox_inches='tight')
-    plt.show()
+    #plt.show()
         
     ####### Second figure #######
         
@@ -160,10 +160,10 @@ if os.path.exists(output_fname) == True:
     plt_fname_subset = 'EC_SouthernAfrica_SST_' + my_time + '.png'
 
     fig1.savefig(plt_fname_subset,bbox_inches='tight')
-    plt.show()
+    #plt.show()
 
     sst_data.close()
-    os.remove(sst_data_file)
+    os.remove(sst_data_file.filename)
     
 else:
     #os.unlink(sst_data_file)
@@ -178,7 +178,7 @@ else:
     
     plt.savefig(plt_fname)
     plt.savefig(plt_fname_subset)
-    plt.show()
+    #plt.show()
 
 
 # Download and plot forcast SST data
@@ -212,8 +212,7 @@ while i < MAX_RETRIES:
                                              variables = variables,
                                               minimum_depth=depth,
                                               maximum_depth=depth,
-                                              output_filename = output_fname,
-                                              force_download=True)
+                                              output_filename = output_fname)
     
         break
     except Exception as e:
@@ -222,7 +221,7 @@ while i < MAX_RETRIES:
         i+=1
         
 if os.path.exists(output_fname) == True:        
-    f_sst_data = xr.open_dataset(f_sst_data_file)
+    f_sst_data = xr.open_dataset(f_sst_data_file.filename)
     f_sst_data = f_sst_data.squeeze()
     
     fig2,ax = plt.subplots(3,2,figsize=(15, 10),subplot_kw={'projection': ccrs.PlateCarree()})
