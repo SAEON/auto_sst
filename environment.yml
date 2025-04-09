@@ -9,6 +9,4 @@ dependencies:
   - cartopy
   - shapely
   - numpy
-  - pip
-  - pip:
-    - copernicusmarine
+  - copernicusmarine
