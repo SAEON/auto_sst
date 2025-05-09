@@ -25,7 +25,6 @@ password = sys.argv[2]
 sender_email = sys.argv[3]
 sender_password = sys.argv[4]
 
-
 #copernicusmarine.login()
 
 # Transect
