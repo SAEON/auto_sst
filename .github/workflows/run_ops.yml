@@ -39,7 +39,7 @@ jobs:
           docker run \
             --rm \
             -v ${{ github.workspace }}:/tmp \
-            ghcr.io/saeon/auto_sst_${{ env.BRANCH_REF }}:latest \
+            ghcr.io/saeon/auto_sst_${{ github.ref_name }}:latest \
               ${{ secrets.COPERNICUS_USERNAME }} \
               ${{ secrets.COPERNICUS_PASSWORD }} \
               ${{ secrets.EMAIL_SENDER }} \
