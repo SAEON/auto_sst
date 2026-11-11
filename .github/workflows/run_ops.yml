@@ -1,8 +1,8 @@
 name: run auto_sst
 
 on:
-  schedule:
-    - cron: '0 14 * * *' # 1600 SAST
+  #schedule:
+  #  - cron: '0 14 * * *' # 1600 SAST
   workflow_dispatch:  # Optional, if you still want manual triggering with other inputs
     inputs:
       build_image:
